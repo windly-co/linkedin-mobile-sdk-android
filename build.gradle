@@ -1,32 +1,36 @@
+import com.android.build.gradle.AppPlugin
+import com.android.build.gradle.LibraryPlugin
+
 apply from: environmentScript
 
 buildscript {
-   repositories {
-     mavenCentral()
-   }
+  repositories {
+    google()
+    mavenCentral()
+  }
 
-   dependencies {
-     classpath 'com.android.tools.build:gradle:1.2.0'
-   }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:3.0.0-beta3'
+  }
 }
 
 def _compileSdkVersion = 17
-def _buildToolsVersion = "19.1.0"
+def _buildToolsVersion = "26.0.1"
 
 subprojects { subproj ->
 
-  subproj.plugins.withType(com.android.build.gradle.AppPlugin.class) {
-         subproj.android {
-             compileSdkVersion _compileSdkVersion
-             buildToolsVersion _buildToolsVersion
-         }
+  subproj.plugins.withType(AppPlugin.class) {
+    subproj.android {
+      compileSdkVersion _compileSdkVersion
+      buildToolsVersion _buildToolsVersion
+    }
   }
 
-  subproj.plugins.withType(com.android.build.gradle.LibraryPlugin.class) {
-         subproj.android {
-             compileSdkVersion _compileSdkVersion
-             buildToolsVersion _buildToolsVersion
-         }
+  subproj.plugins.withType(LibraryPlugin.class) {
+    subproj.android {
+      compileSdkVersion _compileSdkVersion
+      buildToolsVersion _buildToolsVersion
+    }
   }
 }
 
@@ -34,11 +38,11 @@ subprojects { subproj ->
 boolean isDefaultEnvironment() {
   !project.hasProperty('overrideBuildEnvironment')
 }
- 
+
 //gets the environment script. By default it grabs the 'defaultEnvironment.gradle' file.
 //it is configurable via 'overrideBuildEnvironment' project property which is used by ligradle.
 File getEnvironmentScript() {
-  def out = file(defaultEnvironment? 'defaultEnvironment.gradle' : project.overrideBuildEnvironment)
-  assert out.isFile() : "The environment script [$out] does not exists or is not a file."
+  def out = file(defaultEnvironment ? 'defaultEnvironment.gradle' : project.overrideBuildEnvironment)
+  assert out.isFile(): "The environment script [$out] does not exists or is not a file."
   out
 }
