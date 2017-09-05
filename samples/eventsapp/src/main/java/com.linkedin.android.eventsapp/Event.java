@@ -1,127 +1,108 @@
-/*
-    Copyright 2015 LinkedIn Corp.
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
-
 package com.linkedin.android.eventsapp;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.linkedin.android.eventsapp.Person;
-
 public class Event implements Parcelable {
-    private String mEventName;
-    private String mEventLocation;
-    private int mImageResourceId;
-    private long mEventDate;
-    private Person[] mEventAttendees;
-    private Boolean mIsAttending;
-
-    public Event(String eventName, String eventLocation, int imageResourceId, long eventDate, Person[] eventAttendees) {
-        mEventName = eventName;
-        mEventLocation = eventLocation;
-        mImageResourceId = imageResourceId;
-        mEventDate = eventDate;
-        mEventAttendees = eventAttendees;
-        mIsAttending = false;
+  public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+    public Event createFromParcel(Parcel in) {
+      return new Event(in);
     }
 
-    public int getImageResourceId() {
-        return mImageResourceId;
+    public Event[] newArray(int size) {
+      return new Event[size];
     }
+  };
+  private String mEventName;
+  private String mEventLocation;
+  private int mImageResourceId;
+  private long mEventDate;
+  private Person[] mEventAttendees;
+  private Boolean mIsAttending;
 
-    public void setImageResourceId(int imageResourceId) {
-        this.mImageResourceId = imageResourceId;
-    }
+  public Event(String eventName, String eventLocation, int imageResourceId, long eventDate, Person[] eventAttendees) {
+    mEventName = eventName;
+    mEventLocation = eventLocation;
+    mImageResourceId = imageResourceId;
+    mEventDate = eventDate;
+    mEventAttendees = eventAttendees;
+    mIsAttending = false;
+  }
 
-    public long getEventDate() {
-        return mEventDate;
-    }
+  public Event(Parcel source) {
+    mEventName = source.readString();
+    mEventLocation = source.readString();
+    mImageResourceId = source.readInt();
+    mEventDate = source.readLong();
+    mIsAttending = source.readInt() == 1 ? true : false;
+    mEventAttendees = (Person[]) source.readParcelableArray(Person.class.getClassLoader());
+  }
 
-    public void setEventDate(long eventDate) {
-        this.mEventDate = eventDate;
-    }
+  public int getImageResourceId() {
+    return mImageResourceId;
+  }
 
-    public String getEventLocation() {
-        return mEventLocation;
-    }
+  public void setImageResourceId(int imageResourceId) {
+    this.mImageResourceId = imageResourceId;
+  }
 
-    public void setEventLocation(String eventLocation) {
-        this.mEventLocation = eventLocation;
-    }
+  public long getEventDate() {
+    return mEventDate;
+  }
 
-    public String getEventName() {
-        return mEventName;
-    }
+  public void setEventDate(long eventDate) {
+    this.mEventDate = eventDate;
+  }
 
-    public void setEventName(String eventName) {
-        this.mEventName = eventName;
-    }
+  public String getEventLocation() {
+    return mEventLocation;
+  }
 
-    public Person[] getEventAttendees() {
-        return mEventAttendees;
-    }
+  public void setEventLocation(String eventLocation) {
+    this.mEventLocation = eventLocation;
+  }
 
-    public void setEventAttendees(Person[] eventAttendees) {
-        this.mEventAttendees = eventAttendees;
-    }
+  public String getEventName() {
+    return mEventName;
+  }
 
-    public Boolean getIsAttending() {
-        return mIsAttending;
-    }
+  public void setEventName(String eventName) {
+    this.mEventName = eventName;
+  }
 
-    public void setIsAttending(Boolean isAttending) {
-        this.mIsAttending = isAttending;
-    }
+  public Person[] getEventAttendees() {
+    return mEventAttendees;
+  }
 
-    @Override
-    public String toString() {
-        return this.getEventName();
-    }
+  public void setEventAttendees(Person[] eventAttendees) {
+    this.mEventAttendees = eventAttendees;
+  }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+  public Boolean getIsAttending() {
+    return mIsAttending;
+  }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.getEventName());
-        dest.writeString(this.getEventLocation());
-        dest.writeInt(this.getImageResourceId());
-        dest.writeLong(this.getEventDate());
-        dest.writeInt(this.getIsAttending() ? 1 : 0);
-        dest.writeParcelableArray(this.getEventAttendees(), flags);
-    }
+  public void setIsAttending(Boolean isAttending) {
+    this.mIsAttending = isAttending;
+  }
 
-    public Event(Parcel source) {
-        mEventName = source.readString();
-        mEventLocation = source.readString();
-        mImageResourceId = source.readInt();
-        mEventDate = source.readLong();
-        mIsAttending = source.readInt() == 1 ? true : false;
-        mEventAttendees = (Person[]) source.readParcelableArray(Person.class.getClassLoader());
-    }
+  @Override
+  public String toString() {
+    return this.getEventName();
+  }
 
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public Event createFromParcel(Parcel in) {
-            return new Event(in);
-        }
+  @Override
+  public int describeContents() {
+    return 0;
+  }
 
-        public Event[] newArray(int size) {
-            return new Event[size];
-        }
-    };
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    dest.writeString(this.getEventName());
+    dest.writeString(this.getEventLocation());
+    dest.writeInt(this.getImageResourceId());
+    dest.writeLong(this.getEventDate());
+    dest.writeInt(this.getIsAttending() ? 1 : 0);
+    dest.writeParcelableArray(this.getEventAttendees(), flags);
+  }
 }

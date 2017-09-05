@@ -1,62 +1,57 @@
 allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
+  repositories {
+    google()
+    mavenCentral()
+  }
 }
 
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+  compileSdkVersion 26
+  buildToolsVersion "26.0.1"
 
-    defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.1.4"
+  defaultConfig {
+    minSdkVersion 14
+    targetSdkVersion 26
+    versionCode 1
+    versionName "1.1.5"
+  }
+  signingConfigs {
+    debug {
+      storeFile file("debug.keystore")
     }
-    signingConfigs {
-        debug {
-            storeFile file("debug.keystore")
-        }
 
-        release {
-            storeFile file("debug.keystore")
-            storePassword "android"
-            keyAlias "androiddebugkey"
-            keyPassword "android"
-        }
+    release {
+      storeFile file("debug.keystore")
+      storePassword "android"
+      keyAlias "androiddebugkey"
+      keyPassword "android"
     }
-    buildTypes {
-        debug {
-            signingConfig signingConfigs.debug
-        }
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig signingConfigs.release
-        }
+  }
+  buildTypes {
+    debug {
+      signingConfig signingConfigs.debug
     }
-    lintOptions {
-        abortOnError false
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+      signingConfig signingConfigs.release
     }
+  }
+  lintOptions {
+    abortOnError false
+  }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-    compile project(':linkedin-sdk')
+  implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+  implementation project(':linkedin-sdk')
+  implementation 'com.android.support:appcompat-v7:26.0.2'
 }
 
 sourceSets {
 }
 
 configurations {
-}
-
-dependencies {
-}
-dependencies {
-    compile 'com.android.support:appcompat-v7:26.0.2'
 }

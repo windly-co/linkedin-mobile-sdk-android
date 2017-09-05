@@ -27,9 +27,10 @@ android {
     minSdkVersion 14
     targetSdkVersion 26
     versionCode 1
-    versionName "1.1.4"
+    versionName "1.1.5"
   }
   buildTypes {
+    debug {}
     release {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
